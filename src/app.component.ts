@@ -382,25 +382,25 @@ export class AppComponent {
       },
       {
         type: 'content',
-        title: 'Tác động',
+        title: 'Tác động của Độc quyền Nhà nước',
         subPoints: [
           { 
-            title: 'Tác động tiêu cực', 
+            title: 'Tiêu cực 👎', 
             items: [
-              'Giá cả cao: Lợi nhuận độc quyền: Không có cạnh tranh, doanh nghiệp có thể đặt giá cao hơn, làm tăng lợi nhuận riêng mà không cần cải thiện chất lượng.',
-              'Thiếu hiệu quả và đổi mới: Giảm động lực: Thiếu cạnh tranh làm giảm áp lực phải cải tiến, đổi mới công nghệ và nâng cao hiệu quả hoạt động. Kém năng động: Doanh nghiệp độc quyền có thể trở nên ì ạch, kém năng động và không bắt kịp với xu hướng thị trường.',
-              'Hạn chế lựa chọn và quyền lợi người tiêu dùng: Ít lựa chọn: Người tiêu dùng bị buộc phải sử dụng sản phẩm, dịch vụ của doanh nghiệp độc quyền, không có sự lựa chọn thay thế. Thiệt hại: Giá cao hơn và chất lượng có thể thấp hơn gây thiệt hại cho người tiêu dùng.',
-              'Bóp méo thị trường và cạnh tranh: Rào cản gia nhập: Việc độc quyền tạo ra rào cản lớn cho các doanh nghiệp mới muốn tham gia thị trường. Thất bại thị trường: Làm méo mó cơ chế tự điều tiết của thị trường, gây ra tình trạng thất bại thị trường.',
-              'Rủi ro tham nhũng: Tìm kiếm lợi ích (rent-seeking): Các thị trường độc quyền dễ nảy sinh hành vi lạm dụng quyền lực để tìm kiếm lợi nhuận bất hợp pháp, dẫn đến tham nhũng.'
+              'Giá cả cao & Chất lượng thấp: Thiếu cạnh tranh cho phép đặt giá cao tùy ý mà không cần cải tiến.',
+              'Trì trệ, thiếu đổi mới: Mất động lực cải tiến công nghệ, nâng cao hiệu quả do không có áp lực.',
+              'Hạn chế lựa chọn của người tiêu dùng: Buộc phải chấp nhận sản phẩm duy nhất.',
+              'Bóp méo thị trường: Tạo rào cản ngăn cản doanh nghiệp mới gia nhập.',
+              'Gia tăng tham nhũng: Vị thế độc quyền dễ bị lạm dụng để tìm kiếm lợi ích bất hợp pháp.'
             ] 
           },
           { 
-            title: 'Tác động tích cực', 
+            title: 'Tích cực 👍', 
             items: [
-              'Kinh tế quy mô (độc quyền tự nhiên): Giảm chi phí: Trong một số ngành có chi phí cố định rất lớn (điện, nước, đường sắt), việc có một nhà cung cấp duy nhất sẽ hiệu quả hơn nhiều so với nhiều công ty cạnh tranh, giúp giảm chi phí sản xuất.',
-              'Đảm bảo dịch vụ công cộng: Cung cấp ổn định: Nhà nước có thể đảm bảo cung cấp các dịch vụ thiết yếu (y tế, giáo dục, an ninh) cho toàn dân, kể cả những khu vực khó khăn, với một mức giá được kiểm soát.',
-              'Điều tiết kinh tế: Công cụ điều tiết: Chính phủ có thể sử dụng các doanh nghiệp độc quyền như một công cụ để điều tiết nền kinh tế, thực hiện các chính sách vĩ mô.',
-              'Phát triển cơ sở hạ tầng: Đầu tư dài hạn: Doanh nghiệp nhà nước độc quyền có thể thực hiện các dự án đầu tư lớn, dài hạn vào cơ sở hạ tầng mà các doanh nghiệp tư nhân khó thực hiện.'
+              'Hiệu quả kinh tế theo quy mô: Giảm chi phí đầu tư, vận hành trong các ngành hạ tầng (điện, nước).',
+              'Đảm bảo an ninh và dịch vụ công: Cung cấp ổn định các dịch vụ thiết yếu (an ninh, y tế, giáo dục).',
+              'Công cụ điều tiết vĩ mô: Là công cụ để chính phủ thực hiện chính sách, ổn định thị trường.',
+              'Đầu tư vào hạ tầng chiến lược: Thực hiện các dự án lớn, dài hạn mà tư nhân không muốn đầu tư.'
             ] 
           }
         ]
