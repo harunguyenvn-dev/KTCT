@@ -1,0 +1,781 @@
+<!-- Hoàng ơi, đây là "sân khấu" chính của chúng mình nè. Em đã dùng các đường nét, icon, và hiệu ứng ánh sáng
+     để tái tạo lại không khí retro-futuristic mà Hoàng thích. Mọi thứ sẽ chuyển động thật mượt mà! ✨ -->
+<div class="relative w-screen h-screen bg-black text-white p-4 sm:p-6 md:p-8 overflow-hidden font-inter flex flex-col items-center justify-center">
+  <!-- Decorative Grid & Borders -->
+  <div class="absolute inset-0 pointer-events-none z-0">
+    <!-- Corner elements -->
+    <div class="absolute top-4 left-4 w-16 h-16 border-t-2 border-l-2 border-purple-500/50"></div>
+    <div class="absolute top-4 right-4 w-16 h-16 border-t-2 border-r-2 border-purple-500/50"></div>
+    <div class="absolute bottom-4 left-4 w-16 h-16 border-b-2 border-l-2 border-purple-500/50"></div>
+    <div class="absolute bottom-4 right-4 w-16 h-16 border-b-2 border-r-2 border-purple-500/50"></div>
+    <!-- Grid lines -->
+    <div class="absolute top-1/2 left-0 w-full h-px bg-purple-500/20"></div>
+    <div class="absolute left-1/2 top-0 h-full w-px bg-purple-500/20"></div>
+    <!-- Vertical text & barcodes -->
+    <div class="absolute top-[52%] -left-8 -translate-y-1/2 -rotate-90 text-purple-400 font-bungee tracking-widest text-lg opacity-50">NHÓM 3</div>
+    <div class="absolute top-[52%] -right-8 -translate-y-1/2 rotate-90 text-purple-400 font-bungee tracking-widest text-lg opacity-50">NHÓM 3</div>
+    <div class="absolute left-6 top-1/2 -translate-y-24 text-xs font-mono text-purple-400/50 flex flex-col gap-1">
+      <span>| | | | | | | | |</span>
+      <span>| | | | |</span>
+      <span>| | | | | | |</span>
+    </div>
+    <div class="absolute right-6 top-1/2 -translate-y-24 text-xs font-mono text-purple-400/50 flex flex-col gap-1 items-end">
+      <span>| | | | | | | | |</span>
+      <span>| | | | |</span>
+      <span>| | | | | | |</span>
+    </div>
+  </div>
+
+  <!-- Sparkles Container ✨ -->
+  @if (showSparkles()) {
+    <div class="absolute inset-0 pointer-events-none z-30 animate-fade-in">
+      @for(pos of sparklePositions; track $index) {
+        <div class="sparkle" [style.top]="pos.top" [style.left]="pos.left" [style.animation-delay]="($index * 0.3) + 's'"></div>
+      }
+    </div>
+  }
+
+  <!-- Main Slide Container -->
+  <div class="relative w-full h-full max-w-screen-2xl mx-auto z-10 flex flex-col border-2 border-purple-500/20 bg-black/30 backdrop-blur-sm p-4 sm:p-8">
+    <div class="relative flex-grow overflow-hidden">
+      @for (slide of slides(); track slide.id; let i = $index) {
+        <div class="absolute inset-0 transition-opacity duration-700 ease-in-out"
+             [class.opacity-100]="i === currentSlideIndex()"
+             [class.opacity-0]="i !== currentSlideIndex()"
+             [class.pointer-events-auto]="i === currentSlideIndex()"
+             [class.pointer-events-none]="i !== currentSlideIndex()">
+          
+          <div class="w-full h-full flex flex-col items-center justify-center p-2 sm:p-4 text-center animate-fade-in">
+            <!-- EACH SLIDE GETS A UNIQUE DESIGN BASED ON ITS ID -->
+            @switch (slide.id) {
+              @case (0) { <!-- Title Slide -->
+                <div class="animate-slide-in-up flex flex-col items-center justify-center">
+                  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-purple-600 rounded-full blur-3xl opacity-20 animate-pulse"></div>
+                  <pre class="font-mono text-xs text-purple-400/50 animate-fade-in">
+
+                  </pre>
+                  <h1 class="font-bungee text-5xl md:text-7xl lg:text-8xl tracking-wider bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 text-transparent bg-clip-text uppercase my-4" style="--animation-delay: 0.1s;">{{ slide.title }}</h1>
+                  @if(slide.subtitle) {
+                    <h2 class="mt-2 text-2xl md:text-3xl font-bold text-purple-300 tracking-widest" style="--animation-delay: 0.3s;">{{ slide.subtitle }}</h2>
+                  }
+                </div>
+              }
+              @case (1) { <!-- Table of Contents -->
+                <div class="w-full max-w-2xl font-mono animate-slide-in-up">
+                    <div class="border-2 border-blue-400/50 bg-black/40 rounded-lg p-6">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="w-3 h-3 bg-red-500 rounded-full"></span>
+                            <span class="w-3 h-3 bg-yellow-500 rounded-full"></span>
+                            <span class="w-3 h-3 bg-green-500 rounded-full"></span>
+                            <span class="ml-auto text-blue-300">/root/presentation/</span>
+                        </div>
+                        <div class="bg-black/50 p-4 rounded-md">
+                            <h2 class="text-2xl text-green-400 mb-4">$ cat {{ slide.title }}.txt</h2>
+                            <ul class="space-y-2 text-left">
+                                @for(point of slide.points; track $index; let pIdx = $index) {
+                                    <li class="text-lg text-gray-300 animate-slide-in-up" [style.animation-delay]="(0.3 + pIdx * 0.05) + 's'">
+                                        <span class="text-blue-400 mr-2">&gt;</span> {{ point }}
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+              }
+              @case (2) { <!-- What is Market Economy -->
+                 <div class="w-full max-w-5xl grid md:grid-cols-2 gap-8 items-center">
+                    <div class="text-left animate-slide-in-up">
+                        <h2 class="font-bungee text-2xl md:text-4xl text-purple-300 mb-4">{{ slide.title }}</h2>
+                        <p class="text-lg md:text-xl text-gray-300">{{ slide.content }}</p>
+                    </div>
+                    <div class="grid grid-cols-1 gap-4">
+                        @for(point of slide.points; track $index; let pIdx = $index) {
+                            <div class="border-l-4 border-pink-500 bg-black/30 p-4 text-left animate-slide-in-up" [style.animation-delay]="(0.3 + pIdx * 0.1) + 's'">
+                                <p class="text-lg text-gray-200 font-semibold">{{ point }}</p>
+                            </div>
+                        }
+                    </div>
+                 </div>
+              }
+              @case (3) { <!-- Example: Coffee Shop -->
+                 <div class="w-full max-w-5xl text-left">
+                    <h2 class="font-bungee text-2xl md:text-4xl text-purple-300 mb-6 text-center animate-slide-in-up">{{ slide.title }}</h2>
+                    @if(slide.example) {
+                        <div class="bg-black/30 border-2 border-purple-500/30 p-6 rounded-xl shadow-lg shadow-purple-500/10">
+                            <div class="text-center mb-6 animate-slide-in-up" [style.animation-delay]="'0.1s'">
+                                <h3 class="text-2xl font-bold text-blue-300 inline-block px-4 py-2 border-2 border-blue-400/50 rounded-full">☕ {{ slide.example.title }} ☕</h3>
+                                <p class="text-lg text-gray-300 mt-2">{{ slide.example.description }}</p>
+                            </div>
+                            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                                <div class="animate-slide-in-up" [style.animation-delay]="'0.2s'">
+                                    <ul class="space-y-3">
+                                        @for(point of slide.example.points; track $index) {
+                                            <li class="flex items-start gap-3 text-lg text-gray-200"><span class="text-pink-400 mt-1">✨</span><span>{{ point }}</span></li>
+                                        }
+                                    </ul>
+                                </div>
+                                <div class="bg-purple-900/20 p-4 rounded-lg animate-slide-in-up" [style.animation-delay]="'0.3s'">
+                                    <h3 class="text-xl font-bold text-green-400 mb-2">{{ slide.example.resultTitle }}</h3>
+                                    @for(res of slide.example.result; track $index) {
+                                        <p class="text-lg text-gray-200 mb-2 flex items-start gap-2"><span class="text-green-400 mt-1">✔</span> {{ res }}</p>
+                                    }
+                                </div>
+                            </div>
+                            <p class="text-xl text-center text-pink-400 mt-4 font-semibold border-t-2 border-purple-500/30 pt-4 animate-slide-in-up" [style.animation-delay]="'0.4s'">{{ slide.example.conclusion }}</p>
+                        </div>
+                    }
+                 </div>
+              }
+              @case (4) { <!-- Competition Concept - Redesigned -->
+                <div class="w-full max-w-6xl flex flex-col items-center">
+                    <h2 class="font-bungee text-2xl md:text-4xl text-purple-300 mb-6 animate-slide-in-up">{{ slide.title }}</h2>
+                    <div class="w-full p-8 border-2 border-dashed border-purple-500/40 rounded-xl bg-black/30 animate-slide-in-up" [style.animation-delay]="'0.2s'">
+                        <p class="text-lg md:text-xl text-gray-200 text-center">{{ slide.content }}</p>
+                    </div>
+                    <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                        @for (point of slide.points; track $index; let pIdx = $index) {
+                            <div class="p-6 border border-blue-500/30 rounded-lg bg-black/50 animate-slide-in-up transition-all duration-300 hover:bg-blue-900/20 hover:border-blue-400" [style.animation-delay]="(0.4 + pIdx * 0.1) + 's'">
+                                <div class="flex items-center gap-4 text-left">
+                                    <div class="text-4xl">
+                                        @switch(pIdx) {
+                                            @case(0) {<span>👥</span>}
+                                            @case(1) {<span>🎯</span>}
+                                            @case(2) {<span>⚡️</span>}
+                                            @case(3) {<span>🏆</span>}
+                                        }
+                                    </div>
+                                    <div>
+                                        <h3 class="text-xl font-bold text-blue-300">{{ point.split(':')[0] }}</h3>
+                                        <p class="text-lg text-gray-300">{{ point.split(':')[1] }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+              }
+              @case (5) { <!-- Causes of Competition - Redesigned -->
+                <div class="w-full max-w-5xl flex flex-col items-center">
+                    <h2 class="font-bungee text-2xl md:text-4xl text-purple-300 mb-12 animate-slide-in-up">{{ slide.title }}</h2>
+                    <div class="relative w-full flex flex-col items-center">
+                        <!-- Central glowing line -->
+                        <div class="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-1 bg-purple-500/30 rounded-full" style="box-shadow: 0 0 10px #a855f7;"></div>
+
+                        @for (point of slide.points; track $index; let pIdx = $index) {
+                            <div class="relative w-full my-4 flex items-center" 
+                                [class.justify-start]="pIdx % 2 === 0" 
+                                [class.justify-end]="pIdx % 2 !== 0">
+                                <div class="w-full md:w-1/2 p-1">
+                                    <div class="p-4 rounded-lg bg-black/50 border-2 border-pink-500/40 animate-slide-in-up transition-all hover:border-pink-400 hover:bg-pink-900/20 text-lg text-gray-200"
+                                        [class.text-left]="pIdx % 2 === 0"
+                                        [class.text-right]="pIdx % 2 !== 0"
+                                        [style.animation-delay]="(0.3 + pIdx * 0.15) + 's'">
+                                        {{ point }}
+                                    </div>
+                                </div>
+                                <!-- Connector dot -->
+                                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-pink-500 border-2 border-black animate-fade-in" [style.animation-delay]="(0.4 + pIdx * 0.15) + 's'"></div>
+                            </div>
+                        }
+                    </div>
+                </div>
+              }
+              @case (6) { <!-- Diversity of Competition -->
+                <div class="w-full max-w-6xl">
+                    <h2 class="font-bungee text-2xl md:text-4xl text-purple-300 mb-8 animate-slide-in-up">{{ slide.title }}</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                        @for(sub of slide.subPoints; track $index; let sIdx = $index) {
+                            <div class="p-6 rounded-xl bg-gradient-to-br from-purple-900/30 to-black/30 border border-purple-500/30 animate-slide-in-up shadow-lg hover:shadow-purple-500/30 transition-shadow" [style.animation-delay]="(0.3 + sIdx * 0.1) + 's'">
+                                <h4 class="text-xl text-blue-300 font-bold mb-4">{{sub.title}}</h4>
+                                <ul class="space-y-2 text-left">
+                                    @for(item of sub.items; track $index) {
+                                    <li class="text-base text-gray-300 flex items-start"><span class="mr-2 mt-1">💠</span> {{ item }}</li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+                    </div>
+                </div>
+              }
+              @case (7) { <!-- Characteristics of Competition -->
+                <div class="w-full max-w-3xl">
+                    <h2 class="font-bungee text-2xl md:text-4xl text-purple-300 mb-10 animate-slide-in-up">{{ slide.title }}</h2>
+                    <div class="relative flex flex-col items-start text-left pl-8 border-l-4 border-pink-500/50">
+                        @for(point of slide.points; track $index; let pIdx = $index) {
+                            <div class="relative mb-8 w-full animate-slide-in-up" [style.animation-delay]="(0.3 + pIdx * 0.15) + 's'">
+                                <div class="absolute -left-[2.3rem] top-0 w-8 h-8 rounded-full bg-pink-500 border-4 border-black flex items-center justify-center font-bungee text-white">
+                                    {{ pIdx + 1 }}
+                                </div>
+                                <p class="text-xl text-gray-200 font-semibold">{{ point }}</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+              }
+              @case (8) { <!-- Essence of Competition -->
+                <div class="w-full max-w-4xl">
+                  <h2 class="font-bungee text-2xl md:text-4xl text-purple-300 mb-8 animate-slide-in-up">{{ slide.title }}</h2>
+                  <div class="flex flex-col md:flex-row items-center justify-center gap-8">
+                      <div class="flex-1 text-center animate-slide-in-up" [style.animation-delay]="'0.2s'">
+                          <div class="text-6xl mb-4">⚖️</div>
+                          <h3 class="text-2xl font-bold text-blue-300 mb-2">TÍCH CỰC</h3>
+                          <p class="text-lg text-gray-300">Là động lực, thúc đẩy hiệu quả, kích thích đổi mới.</p>
+                      </div>
+                      <div class="w-px h-24 bg-purple-500/50 hidden md:block"></div>
+                       <div class="w-24 h-px bg-purple-500/50 md:hidden"></div>
+                      <div class="flex-1 text-center animate-slide-in-up" [style.animation-delay]="'0.4s'">
+                          <div class="text-6xl mb-4">⚠️</div>
+                           <h3 class="text-2xl font-bold text-pink-400 mb-2">TIÊU CỰC</h3>
+                          <p class="text-lg text-gray-300">Dẫn đến hành vi không lành mạnh, thôn tính, phá hoại.</p>
+                      </div>
+                  </div>
+                   <ul class="mt-10 space-y-3 text-left max-w-2xl mx-auto">
+                      @for(point of slide.points; track $index; let pIdx = $index) {
+                        <li class="text-lg text-gray-200 animate-slide-in-up flex items-center gap-3" [style.animation-delay]="(0.5 + pIdx * 0.1) + 's'">
+                          <span class="w-2 h-2 bg-purple-400 rounded-full"></span>
+                          {{ point }}
+                        </li>
+                      }
+                  </ul>
+                </div>
+              }
+              @case (9) { <!-- Example of Competition -->
+                 <div class="w-full max-w-6xl">
+                    <h2 class="font-bungee text-2xl md:text-4xl text-purple-300 mb-8 animate-slide-in-up">{{ slide.title }}</h2>
+                     @if(slide.example) {
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="bg-black/40 p-6 rounded-lg border border-blue-500/30 animate-slide-in-up" [style.animation-delay]="'0.2s'">
+                                <h3 class="text-2xl font-bold text-blue-300 mb-4">{{ slide.example.title }}</h3>
+                                <p class="text-lg text-gray-400 mb-4">{{ slide.example.description }}</p>
+                                @for(point of slide.example.points; track $index) {
+                                  <p class="text-lg text-gray-200 mb-2">📱 {{ point }}</p>
+                                }
+                            </div>
+                            <div class="bg-black/40 p-6 rounded-lg border border-green-500/30 animate-slide-in-up" [style.animation-delay]="'0.4s'">
+                               <h3 class="text-2xl font-bold text-green-300 mb-4">{{ slide.example.resultTitle }}</h3>
+                                @for(res of slide.example.result; track $index) {
+                                  <p class="text-lg text-gray-200 mb-2">🛒 {{ res }}</p>
+                                }
+                            </div>
+                        </div>
+                        <p class="text-xl text-center text-pink-400 mt-8 font-semibold animate-slide-in-up" [style.animation-delay]="'0.6s'">{{ slide.example.conclusion }}</p>
+                     }
+                 </div>
+              }
+              @case (10) { <!-- Monopoly Concept - Redesigned -->
+                <div class="w-full max-w-5xl flex flex-col items-center animate-fade-in">
+                  <h2 class="font-bungee text-2xl md:text-4xl text-purple-300 mb-6 animate-slide-in-up">{{ slide.title }}</h2>
+                  
+                  <!-- Central Visual -->
+                  <div class="relative w-full h-64 flex items-center justify-center my-4 animate-fade-in" [style.animation-delay]="'0.2s'">
+                      <!-- The Monopoly Orb -->
+                      <div class="w-32 h-32 bg-pink-500 rounded-full flex items-center justify-center shadow-[0_0_25px_theme(colors.pink.500),_0_0_40px_theme(colors.pink.600)] z-10">
+                          <span class="font-bungee text-4xl text-white">ONE</span>
+                      </div>
+                      <!-- Orbiting elements -->
+                      <div class="absolute w-64 h-64 border border-dashed border-purple-500/50 rounded-full animate-spin [animation-duration:20s]"></div>
+                      <div class="absolute w-48 h-48 border border-purple-500/30 rounded-full animate-spin [animation-duration:15s;animation-direction:reverse]"></div>
+                      
+                      <!-- Small dots representing market/consumers -->
+                      <div class="absolute top-[10%] left-[45%] w-4 h-4 bg-blue-300 rounded-full opacity-70"></div>
+                      <div class="absolute top-[45%] left-[15%] w-3 h-3 bg-blue-300 rounded-full opacity-70"></div>
+                      <div class="absolute bottom-[15%] right-[20%] w-5 h-5 bg-blue-300 rounded-full opacity-70"></div>
+                      <div class="absolute bottom-[40%] right-[10%] w-2 h-2 bg-blue-300 rounded-full opacity-70"></div>
+                  </div>
+                  
+                  <p class="text-lg md:text-xl text-gray-300 max-w-3xl mb-8 animate-slide-in-up" [style.animation-delay]="'0.4s'">{{ slide.content }}</p>
+                  
+                  <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                      @for(point of slide.points; track $index; let pIdx = $index) {
+                         <div class="bg-black/40 p-4 border border-purple-500/40 rounded-lg animate-slide-in-up" [style.animation-delay]="(0.6 + pIdx * 0.1) + 's'">
+                             <p class="text-md text-gray-200">{{ point }}</p>
+                         </div>
+                      }
+                  </div>
+                </div>
+              }
+              @case (11) { <!-- Monopoly Causes - Redesigned -->
+                <div class="w-full max-w-5xl flex flex-col items-center animate-fade-in">
+                  <h2 class="font-bungee text-2xl md:text-4xl text-purple-300 mb-12 animate-slide-in-up">{{ slide.title }}</h2>
+                  
+                  <div class="w-full grid grid-cols-1 md:grid-cols-5 gap-4 items-start">
+                      @for(point of slide.points; track $index; let pIdx = $index) {
+                          <div class="flex flex-col items-center gap-4 animate-slide-in-up" [style.animation-delay]="(0.3 + pIdx * 0.15) + 's'">
+                              <!-- Icon -->
+                              <div class="w-16 h-16 rounded-full border-2 border-pink-500/50 bg-black/40 flex items-center justify-center text-3xl">
+                                  @switch(pIdx) { @case(0){<span>🔬</span>} @case(1){<span>⚔️</span>} @case(2){<span>📉</span>} @case(3){<span>🏦</span>} @case(4){<span>📈</span>} }
+                              </div>
+                              <!-- Text -->
+                              <p class="text-center text-gray-300 text-sm h-24">{{ point }}</p>
+                              <!-- Arrow pointing down -->
+                              <div class="text-pink-400 text-4xl animate-pulse">↓</div>
+                          </div>
+                      }
+                  </div>
+                  
+                  <!-- Result Box -->
+                  <div class="mt-8 w-full md:w-1/2 p-6 bg-gradient-to-tr from-pink-500/20 to-purple-500/20 border-2 border-pink-400 rounded-xl animate-fade-in" [style.animation-delay]="'1s'">
+                      <h3 class="font-bungee text-3xl text-white text-center">ĐỘC QUYỀN</h3>
+                      <p class="text-center text-gray-300 mt-2">Sự tập trung quyền lực kinh tế</p>
+                  </div>
+                </div>
+              }
+              @case (12) { <!-- Monopoly Essence - Redesigned -->
+                <div class="w-full max-w-6xl">
+                  <h2 class="font-bungee text-2xl md:text-4xl text-purple-300 mb-4 animate-slide-in-up">{{ slide.title }}</h2>
+                  <p class="text-lg md:text-xl text-gray-300 mb-10 max-w-4xl mx-auto animate-slide-in-up" [style.animation-delay]="'0.2s'">{{ slide.content }}</p>
+                  
+                  @if(slide.subPoints) {
+                    <div class="grid md:grid-cols-2 gap-8 font-mono">
+                      @for(sub of slide.subPoints; track $index; let sIdx = $index) {
+                        <div class="relative p-6 border border-blue-400/30 bg-black/40 rounded-lg animate-slide-in-up transition-all duration-300 hover:border-blue-300 hover:shadow-lg hover:shadow-blue-500/20" 
+                             [style.animation-delay]="(0.4 + sIdx * 0.2) + 's'">
+                          <!-- Corner brackets for Y2K style -->
+                          <div class="absolute -top-1 -left-1 w-6 h-6 border-t-2 border-l-2 border-blue-400"></div>
+                          <div class="absolute -top-1 -right-1 w-6 h-6 border-t-2 border-r-2 border-blue-400"></div>
+                          <div class="absolute -bottom-1 -left-1 w-6 h-6 border-b-2 border-l-2 border-blue-400"></div>
+                          <div class="absolute -bottom-1 -right-1 w-6 h-6 border-b-2 border-r-2 border-blue-400"></div>
+
+                          <h4 class="text-2xl text-blue-300 font-bold mb-4 tracking-widest uppercase">{{ sub.title }}</h4>
+                          @for(item of sub.items; track $index) {
+                            <p class="text-lg text-gray-200 mb-2 pl-4 border-l-2 border-blue-400/50">
+                              {{ item }}
+                            </p>
+                          }
+                        </div>
+                      }
+                    </div>
+                  }
+                </div>
+              }
+               @case (13) { <!-- Example of Monopoly Essence -->
+                <div class="w-full max-w-6xl">
+                    <h2 class="font-bungee text-2xl md:text-4xl text-purple-300 mb-2 animate-slide-in-up">{{ slide.title }}</h2>
+                    <p class="text-lg text-gray-400 mb-8 animate-slide-in-up" [style.animation-delay]="'0.1s'">{{ slide.subtitle }}</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                      @if(slide.subPoints) {
+                        @for(sub of slide.subPoints; track $index; let sIdx = $index) {
+                          <div class="p-4 rounded-lg bg-black/40 border border-purple-500/30 transition-all duration-300 hover:border-pink-500 hover:scale-105 animate-slide-in-up" [style.animation-delay]="(0.3 + sIdx * 0.1) + 's'">
+                            <h4 class="text-xl font-bold text-pink-400 mb-3">{{ sub.title }}</h4>
+                            <ul class="space-y-1">
+                              @for(item of sub.items; track $index) {
+                                <li class="text-base text-gray-300">{{ item }}</li>
+                              }
+                            </ul>
+                          </div>
+                        }
+                      }
+                    </div>
+                </div>
+              }
+              @case (14) { <!-- 5 Economic Characteristics -->
+                <div class="w-full max-w-4xl">
+                  <h2 class="font-bungee text-2xl md:text-4xl text-purple-300 mb-10 animate-slide-in-up">{{ slide.title }}</h2>
+                  <div class="flex flex-col gap-4">
+                    @for(point of slide.points; track $index; let pIdx = $index) {
+                      <div class="flex items-center gap-4 p-4 border border-blue-500/20 rounded-lg bg-blue-900/10 animate-slide-in-up transition-all duration-300 hover:bg-blue-900/30 hover:border-blue-500" [style.animation-delay]="(0.3 + pIdx * 0.1) + 's'">
+                        <div class="font-bungee text-4xl text-blue-400">{{ pIdx + 1 }}</div>
+                        <p class="text-lg text-gray-200 text-left">{{ point }}</p>
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
+              @case (15) { <!-- Monopoly Dual Impact -->
+                <div class="w-full max-w-6xl">
+                  <h2 class="font-bungee text-2xl md:text-4xl text-purple-300 mb-8 animate-slide-in-up">{{ slide.title }}</h2>
+                  @if(slide.example) {
+                    <div class="grid md:grid-cols-2 gap-0 bg-black/30 border-2 border-purple-500/30 rounded-xl overflow-hidden shadow-lg shadow-purple-500/10">
+                      <div class="p-6 text-center border-b-2 md:border-b-0 md:border-r-2 border-purple-500/30 animate-slide-in-up" [style.animation-delay]="'0.2s'">
+                        <h3 class="text-2xl font-bold text-green-400 mb-4">TÍCH CỰC 👍</h3>
+                         <ul class="space-y-3 text-left">
+                            @for(point of slide.example.points; track $index) {
+                              <li class="text-lg text-gray-200">{{ point }}</li>
+                            }
+                         </ul>
+                      </div>
+                      <div class="p-6 text-center animate-slide-in-up" [style.animation-delay]="'0.4s'">
+                        <h3 class="text-2xl font-bold text-red-400 mb-4">TIÊU CỰC 👎</h3>
+                         <ul class="space-y-3 text-left">
+                           @for(res of slide.example.result; track $index) {
+                              <li class="text-lg text-gray-200">{{ res }}</li>
+                           }
+                         </ul>
+                      </div>
+                    </div>
+                     <p class="text-lg text-center text-gray-300 mt-6 animate-slide-in-up" [style.animation-delay]="'0.5s'"><span class="font-bold text-white">{{ slide.example.title }}:</span> {{ slide.example.description }}</p>
+                     <p class="text-xl text-center text-pink-400 mt-4 font-semibold animate-slide-in-up" [style.animation-delay]="'0.6s'">{{ slide.example.conclusion }}</p>
+                  }
+                </div>
+              }
+              @case (16) { <!-- Biểu hiện mới của độc quyền -->
+                <div class="w-full max-w-7xl">
+                  <h2 class="font-bungee text-2xl md:text-4xl text-purple-300 mb-8 animate-slide-in-up">{{ slide.title }}</h2>
+                  @if(slide.subPoints) {
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 text-left">
+                      @for(sub of slide.subPoints; track $index; let sIdx = $index) {
+                        <div class="relative p-6 bg-black/40 border border-purple-500/30 rounded-xl animate-slide-in-up transition-all duration-300 hover:border-blue-400 hover:bg-blue-900/20" [style.animation-delay]="(0.3 + sIdx * 0.15) + 's'">
+                          <div class="flex items-start gap-4">
+                            <div class="mt-1 text-blue-400 shrink-0">
+                              @switch(sIdx) {
+                                @case(0) { <!-- Icon for tech/data -->
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5.636 18.364a9 9 0 010-12.728m12.728 0a9 9 0 010 12.728m-9.9-2.829a4 4 0 110-5.656 4 4 0 010 5.656z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                  </svg>
+                                }
+                                @case(1) { <!-- Icon for finance -->
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2h2m-5 0h-1a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v6a2 2 0 01-2 2h-1m-6-3a3 3 0 100-6 3 3 0 000 6z" />
+                                  </svg>
+                                }
+                                @case(2) { <!-- Icon for global/complex -->
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2h8a2 2 0 002-2v-1a2 2 0 012-2h1.945M7.7 9a3 3 0 010-4.243l3.535-3.536a3 3 0 014.242 0l3.536 3.536a3 3 0 010 4.243m-13 2.828V18a2 2 0 002 2h10a2 2 0 002-2v-4.172" />
+                                  </svg>
+                                }
+                                @case(3) { <!-- Icon for state -->
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0v-4a2 2 0 012-2h6a2 2 0 012 2v4m-6 0v-4" />
+                                  </svg>
+                                }
+                              }
+                            </div>
+                            <div>
+                              <h4 class="font-bungee text-xl text-blue-300 mb-3">{{sub.title}}</h4>
+                              <ul class="space-y-2">
+                                @for(item of sub.items; track $index) {
+                                  <li class="text-base text-gray-300 flex items-start gap-2">
+                                    <span class="mt-1.5 w-1.5 h-1.5 bg-blue-400 rounded-full shrink-0"></span>
+                                    <span>{{ item }}</span>
+                                  </li>
+                                }
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  }
+                  @if (slide.content) {
+                    <div class="mt-8 p-6 bg-black/50 border-t-2 border-purple-500/50 rounded-lg animate-fade-in" [style.animation-delay]="'1s'">
+                        <p class="text-lg text-gray-200 text-center">{{ slide.content }}</p>
+                    </div>
+                  }
+                </div>
+              }
+               @case (17) { <!-- State Monopoly Concept & Causes -->
+                <div class="w-full max-w-6xl grid md:grid-cols-2 gap-10">
+                  <div class="text-left animate-slide-in-up" [style.animation-delay]="'0.1s'">
+                    <h2 class="font-bungee text-2xl md:text-4xl text-purple-300 mb-4">{{ slide.title?.split('-')[0] }}</h2>
+                    <p class="text-lg md:text-xl text-gray-300 bg-black/30 p-4 border-l-4 border-purple-400">{{ slide.content }}</p>
+                  </div>
+                  <div class="text-left animate-slide-in-up" [style.animation-delay]="'0.3s'">
+                    @if(slide.subtitle) {
+                      <h3 class="text-2xl font-bold text-blue-300 mb-4">{{ slide.subtitle }}</h3>
+                    }
+                    <ul class="space-y-3">
+                      @for(point of slide.points; track $index; let pIdx = $index) {
+                        <li class="text-lg text-gray-200 flex gap-3"><span class="text-blue-400">🏛️</span> {{ point }}</li>
+                      }
+                    </ul>
+                  </div>
+                </div>
+              }
+              @case (18) { <!-- New: Bản chất của ĐQNN - Redesigned -->
+                <div class="w-full max-w-6xl flex flex-col items-center">
+                  <h2 class="font-bungee text-2xl md:text-4xl text-purple-300 mb-10 animate-slide-in-up">{{ slide.title }}</h2>
+                  <div class="w-full flex flex-col md:flex-row items-stretch justify-center gap-8 font-mono">
+                      <!-- Left Side: Private Monopoly -->
+                      <div class="w-full md:w-5/12 flex flex-col text-center animate-slide-in-up" [style.animation-delay]="'0.2s'">
+                          <div class="flex items-center justify-center gap-3 mb-4">
+                              <h3 class="font-bungee text-xl text-blue-300">ĐỘC QUYỀN TƯ NHÂN</h3>
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0v-4a2 2 0 012-2h6a2 2 0 012 2v4m-6 0v-4"/></svg>
+                          </div>
+                          <div class="flex-grow text-left p-4 bg-black/40 border border-blue-500/30 rounded-lg text-gray-300 text-sm">
+                              {{ slide.points ? slide.points[0] : '' }}
+                          </div>
+                      </div>
+              
+                      <!-- Center: Fusion Visual -->
+                      <div class="flex items-center justify-center animate-fade-in" [style.animation-delay]="'0.4s'">
+                          <div class="text-purple-400 text-6xl font-bungee animate-pulse">+</div>
+                      </div>
+              
+                      <!-- Right Side: State Power -->
+                      <div class="w-full md:w-5/12 flex flex-col text-center animate-slide-in-up" [style.animation-delay]="'0.6s'">
+                          <div class="flex items-center justify-center gap-3 mb-4">
+                              <h3 class="font-bungee text-xl text-pink-300">SỨC MẠNH NHÀ NƯỚC</h3>
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-pink-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                          </div>
+                          <div class="flex-grow text-left p-4 bg-black/40 border border-pink-500/30 rounded-lg text-gray-300 text-sm">
+                              {{ slide.points ? slide.points[1] : '' }}
+                          </div>
+                      </div>
+                  </div>
+                </div>
+              }
+              @case (19) { <!-- New: Đặc điểm - Redesigned -->
+                <div class="w-full max-w-6xl">
+                  <h2 class="font-bungee text-2xl md:text-4xl text-purple-300 mb-10 animate-slide-in-up">{{ slide.title }}</h2>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      @for(point of slide.points; track $index; let pIdx = $index) {
+                          <div class="relative p-6 bg-black/40 border-2 border-cyan-500/30 rounded-xl animate-slide-in-up transition-all duration-300 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20 overflow-hidden text-left" 
+                               [style.animation-delay]="(0.3 + pIdx * 0.15) + 's'">
+                              <div class="absolute -top-4 -right-4 font-bungee text-8xl text-cyan-500/10 select-none">{{ '0' + (pIdx + 1) }}</div>
+                              <div class="relative z-10">
+                                  <div class="mb-4 text-cyan-300">
+                                      @switch(pIdx) {
+                                          @case(0) { <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9V3m0 18a9 9 0 009-9m-9 9a9 9 0 00-9-9" /></svg> }
+                                          @case(1) { <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg> }
+                                          @case(2) { <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2 1m0 0l-2-1m2 1V2.5M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg> }
+                                          @case(3) { <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3v1.5M3 21v-1.5M21 3v1.5M21 21v-1.5M12 3v1.5M12 21v-1.5M3 12h1.5M21 12h-1.5M12 12l6.364-6.364m-12.728 0L12 12l6.364 6.364M12 12l-6.364 6.364" /></svg> }
+                                      }
+                                  </div>
+                                  <h3 class="text-xl font-bold text-cyan-300 mb-2">{{ point.split(':')[0] }}</h3>
+                                  <p class="text-gray-300 text-lg">{{ point.split(':').slice(1).join(':').trim() }}</p>
+                              </div>
+                          </div>
+                      }
+                  </div>
+                </div>
+              }
+              @case(20) { <!-- NEW: Biểu hiện độc quyền nhà nước ngày nay -->
+                <div class="w-full max-w-7xl">
+                  <h2 class="font-bungee text-2xl md:text-4xl text-purple-300 mb-6 animate-slide-in-up">{{ slide.title }}</h2>
+                  @if(slide.subPoints) {
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+                      @for(sub of slide.subPoints; track $index; let sIdx = $index) {
+                        <div class="p-4 bg-gradient-to-br from-purple-900/40 to-black/30 border border-blue-400/30 rounded-xl animate-slide-in-up transition-all duration-300 hover:border-blue-300 hover:shadow-lg hover:shadow-blue-500/20" 
+                             [style.animation-delay]="(0.3 + sIdx * 0.15) + 's'">
+                          <div class="flex items-start gap-4">
+                            <div class="text-blue-400 shrink-0 mt-1">
+                              @switch(sIdx) {
+                                @case(0) { <!-- Tăng trưởng kinh tế nhà nước -->
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                  </svg>
+                                }
+                                @case(1) { <!-- Sự đan xen -->
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+                                  </svg>
+                                }
+                                @case(2) { <!-- Vai trò điều tiết -->
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                                  </svg>
+                                }
+                                @case(3) { <!-- Liên kết -->
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M15 21v-1a6 6 0 00-1.78-4.125" />
+                                  </svg>
+                                }
+                              }
+                            </div>
+                            <div>
+                                <h4 class="font-bungee text-xl text-blue-300 mb-3">{{ sub.title }}</h4>
+                                <ul class="space-y-2">
+                                  @for(item of sub.items; track $index) {
+                                    <li class="text-base text-gray-300">{{ item }}</li>
+                                  }
+                                </ul>
+                            </div>
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  }
+                </div>
+              }
+              @case (21) { <!-- New: Tác động - Redesigned -->
+                <div class="w-full max-w-7xl">
+                  <h2 class="font-bungee text-2xl md:text-4xl text-purple-300 mb-6 animate-slide-in-up">{{ slide.title }}</h2>
+                  @if(slide.subPoints && slide.subPoints.length === 2) {
+                  <div class="grid md:grid-cols-2 gap-8 text-left">
+                      <!-- Negative Panel -->
+                      <div class="p-4 rounded-xl bg-black/40 border-2 border-red-500/40 animate-slide-in-up" [style.animation-delay]="'0.2s'">
+                          <div class="flex items-center gap-3 mb-4">
+                              <div class="w-12 h-12 flex items-center justify-center rounded-full bg-red-500/20 border-2 border-red-500/50">
+                                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>
+                              </div>
+                              <h3 class="font-bungee text-2xl text-red-400">{{ slide.subPoints[0].title }}</h3>
+                          </div>
+                          <ul class="space-y-3">
+                              @for(item of slide.subPoints[0].items; track $index) {
+                              <li class="text-gray-300">
+                                  <p class="font-semibold text-base text-red-300">{{ item.split(':')[0] }}:</p>
+                                  <p class="text-sm pl-4 text-gray-400">{{ item.split(':').slice(1).join(':').trim() }}</p>
+                              </li>
+                              }
+                          </ul>
+                      </div>
+                      <!-- Positive Panel -->
+                      <div class="p-4 rounded-xl bg-black/40 border-2 border-green-500/40 animate-slide-in-up" [style.animation-delay]="'0.4s'">
+                          <div class="flex items-center gap-3 mb-4">
+                              <div class="w-12 h-12 flex items-center justify-center rounded-full bg-green-500/20 border-2 border-green-500/50">
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                              </div>
+                              <h3 class="font-bungee text-2xl text-green-400">{{ slide.subPoints[1].title }}</h3>
+                          </div>
+                          <ul class="space-y-3">
+                              @for(item of slide.subPoints[1].items; track $index) {
+                              <li class="text-gray-300">
+                                  <p class="font-semibold text-base text-green-300">{{ item.split(':')[0] }}:</p>
+                                  <p class="text-sm pl-4 text-gray-400">{{ item.split(':').slice(1).join(':').trim() }}</p>
+                              </li>
+                              }
+                          </ul>
+                      </div>
+                  </div>
+                  }
+                </div>
+              }
+               @case (22) { <!-- Relationship -->
+                <div class="w-full max-w-5xl flex flex-col items-center">
+                  <h2 class="font-bungee text-2xl md:text-4xl text-purple-300 mb-8 animate-slide-in-up">{{ slide.title }}</h2>
+                  <p class="text-lg md:text-xl text-gray-300 mb-10 max-w-3xl animate-slide-in-up" [style.animation-delay]="'0.2s'">{{ slide.content }}</p>
+                  <div class="flex flex-col md:flex-row items-center justify-center gap-4 font-bungee text-xl">
+                      <div class="px-4 py-2 border-2 border-blue-400 rounded-lg text-blue-300 animate-slide-in-up" [style.animation-delay]="'0.4s'">CẠNH TRANH</div>
+                      <div class="text-purple-400 text-4xl animate-fade-in" [style.animation-delay]="'0.6s'">→</div>
+                      <div class="px-4 py-2 border-2 border-pink-400 rounded-lg text-pink-300 animate-slide-in-up" [style.animation-delay]="'0.8s'">ĐỘC QUYỀN</div>
+                      <div class="text-purple-400 text-4xl animate-fade-in" [style.animation-delay]="'1s'">🔥→</div>
+                      <div class="px-4 py-2 border-2 border-red-500 rounded-lg text-red-400 animate-slide-in-up" [style.animation-delay]="'1.2s'">CẠNH TRANH GAY GẮT HƠN</div>
+                  </div>
+                  @if(slide.points) {
+                    <div class="mt-8 flex gap-8">
+                       @for(point of slide.points; track $index; let pIdx = $index) {
+                          <p class="text-lg text-gray-300 animate-slide-in-up" [style.animation-delay]="(1.4 + pIdx * 0.2) + 's'">- {{ point }}</p>
+                       }
+                    </div>
+                  }
+                </div>
+              }
+              @case (23) { <!-- Capitalism Role & Limits -->
+                <div class="w-full max-w-6xl">
+                    <h2 class="font-bungee text-2xl md:text-4xl text-purple-300 mb-8 animate-slide-in-up">{{ slide.title }}</h2>
+                    @if(slide.subPoints) {
+                    <div class="grid md:grid-cols-2 gap-8 text-left">
+                        @for(sub of slide.subPoints; track $index; let sIdx = $index) {
+                            <div class="p-6 rounded-lg bg-black/30 animate-slide-in-up" [style.animation-delay]="(0.3 + sIdx * 0.2) + 's'">
+                                <h4 class="text-2xl font-bold mb-4 flex items-center gap-3" [class.text-green-400]="sIdx === 0" [class.text-red-400]="sIdx === 1">
+                                    @if(sIdx === 0) {<span>▲</span>} @else {<span>▼</span>}
+                                    {{ sub.title }}
+                                </h4>
+                                <ul class="space-y-2">
+                                    @for(item of sub.items; track $index) {
+                                    <li class="text-lg text-gray-300 flex items-start gap-2">
+                                        @if(sIdx === 0) {<span class="text-green-500">+</span>} @else {<span class="text-red-500">-</span>}
+                                        {{ item }}
+                                    </li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+                    </div>
+                    }
+                </div>
+              }
+              @case (24) { <!-- Capitalism Trend -->
+                <div class="w-full max-w-4xl">
+                    <h2 class="font-bungee text-2xl md:text-4xl text-purple-300 mb-6 animate-slide-in-up">{{ slide.title }}</h2>
+                    <p class="text-lg md:text-xl text-gray-300 mb-10 animate-slide-in-up" [style.animation-delay]="'0.2s'">{{ slide.content }}</p>
+                    <div class="flex flex-col gap-2 items-center w-full">
+                        @for(point of slide.points; track $index; let pIdx = $index) {
+                            <div class="w-full md:w-3/4 p-3 bg-black/30 border border-purple-500/30 rounded-md animate-slide-in-up text-center" [style.animation-delay]="(0.4 + pIdx * 0.2) + 's'">
+                                <p class="text-lg text-gray-200">{{ point }}</p>
+                            </div>
+                            @if(!$last) {
+                              <div class="h-6 w-px bg-purple-500/50 animate-fade-in" [style.animation-delay]="(0.5 + pIdx * 0.2) + 's'"></div>
+                            }
+                        }
+                    </div>
+                </div>
+              }
+              @case(25) { <!-- MCQ -->
+                 <div class="w-full max-w-3xl">
+                    <h2 class="font-bungee text-2xl md:text-4xl text-purple-300 mb-8 animate-slide-in-up">{{ slide.title }}</h2>
+                    @if (slide.mcq) {
+                        @for(q of slide.mcq; track $index) {
+                            <div class="bg-black/30 border-2 border-purple-500/30 rounded-xl p-8 shadow-lg shadow-purple-500/10">
+                                <p class="text-2xl font-bold text-gray-100 mb-8 animate-slide-in-up" [style.animation-delay]="'0.2s'">{{ q.question }}</p>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    @for(option of q.options; track $index; let oIdx = $index) {
+                                        <button (click)="selectOption(oIdx)" 
+                                            class="p-4 text-lg rounded-lg border-2 transition-all duration-300 animate-slide-in-up disabled:cursor-not-allowed"
+                                            [disabled]="showAnswer()"
+                                            [style.animation-delay]="(0.4 + oIdx * 0.1) + 's'"
+                                            [class.border-gray-600]="selectedOptionIndex() !== oIdx"
+                                            [class.hover:bg-purple-500/20]="!showAnswer()"
+                                            [class.border-purple-500]="selectedOptionIndex() === oIdx"
+                                            [class.bg-green-500/30]="showAnswer() && oIdx === q.correctOptionIndex"
+                                            [class.border-green-500]="showAnswer() && oIdx === q.correctOptionIndex"
+                                            [class.bg-red-500/30]="showAnswer() && selectedOptionIndex() === oIdx && oIdx !== q.correctOptionIndex"
+                                            [class.border-red-500]="showAnswer() && selectedOptionIndex() === oIdx && oIdx !== q.correctOptionIndex">
+                                            {{ option }}
+                                        </button>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    }
+                 </div>
+              }
+              @case(26) { <!-- Thank You -->
+                <div class="flex flex-col items-center justify-center animate-fade-in">
+                  <h1 class="font-bungee text-6xl md:text-8xl tracking-wider text-white" 
+                      style="text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #f0f, 0 0 40px #f0f, 0 0 50px #f0f, 0 0 60px #f0f, 0 0 70px #f0f;">
+                      {{ slide.title }}
+                  </h1>
+                  @if (slide.subtitle) {
+                      <p class="mt-6 text-xl md:text-2xl text-purple-300 font-semibold tracking-wide animate-slide-in-up" [style.animation-delay]="'0.5s'">{{ slide.subtitle }}</p>
+                  }
+                </div>
+              }
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Navigation -->
+    <div class="flex-shrink-0 pt-4 mt-auto">
+      <div class="flex items-center justify-between">
+        <!-- Progress Bar / Dots -->
+        <div class="flex items-center gap-2">
+           <button (click)="prevPage()" 
+            [disabled]="currentPaginationPage() === 0"
+            class="px-2 py-1 text-lg font-bold text-purple-300 rounded hover:bg-purple-500/20 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity duration-300">
+              &lt;&lt;
+            </button>
+
+            @for(dot of visiblePaginationDots(); track dot.index) {
+                <button (click)="goToSlide(dot.index)" class="w-3 h-3 rounded-full border-2 border-purple-400 transition-all duration-300"
+                        [class.bg-purple-400]="dot.index === currentSlideIndex()"
+                        [class.scale-125]="dot.index === currentSlideIndex()"
+                        [class.hover:bg-purple-400/50]="dot.index !== currentSlideIndex()"></button>
+            }
+
+            <button (click)="nextPage()" 
+              [disabled]="currentPaginationPage() >= totalPaginationPages() - 1"
+              class="px-2 py-1 text-lg font-bold text-purple-300 rounded hover:bg-purple-500/20 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity duration-300">
+              &gt;&gt;
+          </button>
+        </div>
+
+        <!-- Prev/Next Buttons -->
+        <div class="flex items-center gap-4">
+          <button (click)="prevSlide()" class="px-4 py-2 text-lg font-bold text-purple-300 border-2 border-purple-500/50 rounded-lg hover:bg-purple-500/20 transition-colors duration-300">
+            PREV
+          </button>
+          <button (click)="nextSlide()" class="px-4 py-2 text-lg font-bold text-purple-300 border-2 border-purple-500/50 rounded-lg hover:bg-purple-500/20 transition-colors duration-300">
+            NEXT
+          </button>
+        </div>
+      </div>
+       <div class="text-center text-purple-500/50 mt-4 text-sm font-mono">
+        SLIDE {{ currentSlideIndex() + 1 }} / {{ slides().length }}
+      </div>
+    </div>
+  </div>
+</div>
