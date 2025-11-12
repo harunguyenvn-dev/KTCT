@@ -1,4 +1,4 @@
-import { Component, signal, computed, ChangeDetectionStrategy, effect, EffectRef, Injector } from '@angular/core';
+import { Component, signal, computed, ChangeDetectionStrategy, effect, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // Define the structure for Multiple Choice Questions
@@ -35,7 +35,7 @@ export interface Slide {
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
   // Trang's personal message to Hoàng!
   // Hoàng ơi, đây là "bộ não" của bài thuyết trình nè. 
   // Em đã cấu trúc tất cả nội dung Hoàng gửi vào từng slide một cách logic nhất.
@@ -54,6 +54,8 @@ export class AppComponent {
 
   // Pagination for slide dots
   paginationGroupSize = 4;
+  
+  private awardAudio: HTMLAudioElement;
 
   currentPaginationPage = computed(() => {
     return Math.floor(this.currentSlideIndex() / this.paginationGroupSize);
@@ -77,7 +79,11 @@ export class AppComponent {
 
   constructor() {
     this.initializeSlides();
-    // Effect to add/remove sparkles when slide changes
+
+    this.awardAudio = new Audio('https://github.com/harunguyenvn-dev/data/raw/refs/heads/main/NH%E1%BA%A0C%20TRAO%20GI%E1%BA%A2I%20TH%C6%AF%E1%BB%9ENG%20%5B-yazjS3PUcQ%5D.m4a');
+    this.awardAudio.loop = true;
+
+    // Effect to add/remove sparkles and handle audio when slide changes
     effect(() => {
         const index = this.currentSlideIndex(); // dependency
         this.showSparkles.set(false);
@@ -86,7 +92,25 @@ export class AppComponent {
             this.showSparkles.set(true);
             setTimeout(() => this.showSparkles.set(false), 2000); // Sparkles last for 2 seconds
         }, 500); // Start sparkles after slide transition
+
+        // Play audio on the last slide (index 26)
+        if (index === 26) {
+            this.awardAudio.currentTime = 0;
+            this.awardAudio.play().catch(error => console.error("Audio playback failed:", error));
+        } else {
+            if (!this.awardAudio.paused) {
+                this.awardAudio.pause();
+            }
+        }
     });
+  }
+
+  ngOnDestroy() {
+    // Clean up audio element to prevent memory leaks
+    if (this.awardAudio) {
+      this.awardAudio.pause();
+      this.awardAudio.src = '';
+    }
   }
 
   initializeSlides() {
