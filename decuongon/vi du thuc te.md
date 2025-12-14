@@ -2,13 +2,7 @@
 
 ### 🌟 1. LƯỢNG GIÁ TRỊ HÀNG HÓA VÀ CÁC NHÂN TỐ ẢNH HƯỞNG
 
-> **Lượng giá trị của hàng hóa là gì?**
-> Là lượng lao động xã hội (thời gian + sức lực) hao phí để sản xuất ra hàng hóa đó. Nó không đo bằng thời gian cá biệt của một anh lười biếng, mà đo bằng **Thời gian lao động xã hội cần thiết** (mức trung bình).
 
-**Hai nhân tố ảnh hưởng chính (công thức ngược và công thức xuôi):**
-
-*   **Năng suất lao động:** Tăng lên $\rightarrow$ Lượng giá trị 1 đơn vị hàng hóa **giảm xuống** (vì làm nhanh hơn, tốn ít sức hơn).
-*   **Cường độ lao động:** Tăng lên (làm hối hả hơn) $\rightarrow$ Lượng hàng hóa tăng nhưng sức lực tốn như cũ $\rightarrow$ Lượng giá trị 1 đơn vị hàng hóa **không đổi** (chỉ có tổng giá trị là tăng).
 
 **📌 07 VÍ DỤ MINH HỌA:**
 1.  **Dệt vải thủ công:** Ngày xưa dệt tay 1 tuần/áo (giá trị rất cao, đắt). Nay dùng máy, 10 phút/áo $\rightarrow$ năng suất tăng $\rightarrow$ giá trị (giá rẻ) của áo giảm.
@@ -64,10 +58,6 @@ Phần này là "Hiến pháp" vận hành của thị trường.
 ---
 
 ### 💪 3. HÀNG HÓA SỨC LAO ĐỘNG
-
-> Sức lao động là **thể lực + trí lực** của con người có thể đem bán.
->
-> Đặc biệt nhất: Khi bạn dùng hàng hóa này, nó tạo ra một lượng giá trị **LỚN HƠN** lượng giá trị bản thân nó (gọi là Giá trị thặng dự). Con người ăn hết 1 bát cơm (chi phí), nhưng cày được thửa ruộng ra 10 bát cơm (giá trị mới).
 
 **07 VÍ DỤ MINH HỌA:**
 1.  **Công nhân may:** Công ty trả lương 10 triệu/tháng (giá trị sức lao động để họ sống), nhưng tháng đó họ may lượng áo bán được 50 triệu. Chênh lệch 40tr là doanh nghiệp hưởng.
